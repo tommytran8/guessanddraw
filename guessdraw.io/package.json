@@ -1,0 +1,22 @@
+{
+  "name": "pictionary_maybe",
+  "version": "1.0.0",
+  "description": "pictionary game",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "tommytran-8"
+  },
+  "keywords": [
+    "pictionary"
+  ],
+  "author": "Tommy Tran",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^3.0.5"
+  }
+}

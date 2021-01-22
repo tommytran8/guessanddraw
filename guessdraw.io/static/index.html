@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="Tutorial on CSS">
+        <meta name="author" content="Tommy" >
+        <meta name="keywords" content="Tutorial, CSS, HTML">
+        <meta name="viewpoint" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="./style.css">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+        <title>Pictionary</title>
+    </head>
+    <body>
+        <main>
+            <h1>Pictionary</h1>
+            <div class="topdisplay">
+                <div id="currentword"></div>
+                <div id="time">0</div>
+            </div>
+            
+            <div class="display">
+                <div id="players">
+                </div>
+                <canvas id="canvas" width=840 height=575></canvas>
+                <div class="chat">
+                    <div id="chatbox">
+                        <!-- <p>Welcome!</p> -->
+                    </div>
+                    <form id="form">
+                        <input type="text" name="input" id="input">
+                        <button type="submit">Send Message</button>
+                    </form>
+                </div>
+                
+            </div>
+            <div class="drawingtools">
+                <div id="colors">
+                    <div id="white" style="background-color: white;"></div>
+                    <div id="red" style="background-color: red;"></div>
+                    <div id="orange" style="background-color: orange;"></div>
+                    <div id="yellow" style="background-color: yellow;"></div>
+                    <div id="green" style="background-color: green;"></div>
+                    <div id="black" style="background-color: black;"></div>
+                    <div id="grey" style="background-color: grey;"></div>
+                    <div id="cyan" style="background-color: cyan;"></div>
+                    <div id="blue" style="background-color: blue;"></div>
+                    <div id="purple" style="background-color: purple;"></div>
+                </div>
+                <div id="pixelsizes">
+                    <div id="small"><div class="pxl"></div></div>
+                    <div id="medium"><div class="pxl"></div></div>
+                    <div id="large"><div class="pxl"></div></div>
+                </div>
+                <img id="trash" src="./assets/trash.png" alt="Trash" width=50>
+            </div>
+        </main>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="./pictionary.js"></script>
+    </body>
+</html>
