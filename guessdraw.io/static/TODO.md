@@ -12,6 +12,7 @@
     [x] one player can only draw
     [x] one player can only click on drawingtools
     [x] fix bug where if drawer leaves lobby...
+    [] hide the words on the screens of those who are not drawing 
     [] set up some type of form that gets username. Like a lobby before starting the game
     
                                                     //make a new html page that then

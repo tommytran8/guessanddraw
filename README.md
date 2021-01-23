@@ -8,6 +8,7 @@
     [ ] Lobby before starting the game to enter Username
     [x] Users can draw on canvas that updates on everyone's screen
     [x] Drawing will render on new player's or reentering player's canvas
+    [ ] Hide the words on the screens of those who are not drawing 
     [ ] One player can only draw and rotate between players
     [x] Chat with username and message
     [x] list of players
