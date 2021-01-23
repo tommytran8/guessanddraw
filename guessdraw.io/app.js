@@ -9,7 +9,7 @@ var i = 1;
 var currentStroke = "black";
 var strokeSize = 3;
 var currentWord = Math.floor(Math.random() * 62);
-var currentTime = 0;
+var currentTime = "0";
 var firstCountdown = null;
 var stateholder;
 var uptodatecanv = null;
@@ -20,7 +20,7 @@ app.get('/', (req,res)=>{
 });
 
 io.on('connection', (socket) => { //gets emitted connection and does things
-    console.log('a user connected:' + socket.id);
+    // console.log('a user connected:' + socket.id);
     user[socket.id] = "user" + i;
     i += 1;
     io.emit('chat message', null, user[socket.id] + ' has connected.');
@@ -32,9 +32,9 @@ io.on('connection', (socket) => { //gets emitted connection and does things
 
     io.emit('pixelsize', strokeSize);
     
-    io.emit('change word', currentWord, null);
+    io.emit('change word', currentWord, null, null);
 
-    io.emit('current time', currentTime);
+    io.emit('current time', currentTime, null);
 
     io.emit('start countdown', firstCountdown, null);
 
@@ -46,35 +46,60 @@ io.on('connection', (socket) => { //gets emitted connection and does things
     });
 
   
-    socket.on('set stroke color', (color)=>{
-      currentStroke = color;
-      io.emit('stroke color', color);
+    socket.on('set stroke color', (color, turnindex)=>{
+      if (Object.values(user)[turnindex] == user[socket.id]){ 
+        currentStroke = color;
+        io.emit('stroke color', color);
+      }
     });
-    socket.on('set pixelsize', (size)=>{
-      strokeSize = size;
-      io.emit('pixelsize', size);
+    socket.on('set pixelsize', (size, turnindex)=>{
+      if (Object.values(user)[turnindex] == user[socket.id]){ 
+        strokeSize = size;
+        io.emit('pixelsize', size);
+      }
     });
 
-    socket.on('drawing', (x1,y1,x2,y2)=>{
-      io.emit('drawing', x1,y1,x2,y2);
+    socket.on('drawing', (x1,y1,x2,y2, turnindex)=>{
+      if (Object.values(user)[turnindex] == user[socket.id]){ 
+        io.emit('drawing', x1,y1,x2,y2);
+      }
     });
-    socket.on('clear', ()=>{
-      io.emit('clear');
+    socket.on('clear', (turnindex, b)=>{
+      if (Object.values(user)[turnindex] == user[socket.id] || b){ 
+        io.emit('clear');
+      }
+    });
+    socket.on('set turn', (t)=>{
+      io.emit('set turn', t);
     });
 
     socket.on('guessed correctly',()=>{
       usercorrect.push(user[socket.id]);
       io.emit('correct', usercorrect);
     });
-    socket.on('change word', ()=>{
+    socket.on('change word', (turnindex)=>{
+      var turn  = turnindex;
+      if (turnindex >= Object.values(user).length){
+        turn = 0;
+      }
       currentWord = Math.floor(Math.random() * 62);
-      io.emit('change word', currentWord, usercorrect); //random int 0-61
+      io.emit('change word', currentWord, usercorrect, turn); //random int 0-61
       usercorrect = [];
+      currentStroke = "black";
+      strokeSize = 3;
+      io.to(Object.keys(user)[turn]).emit('drawer');
+      io.emit('chat message', null, Object.values(user)[turn] + " is drawing!");
+
     });
 
-    socket.on('current timer', (time)=>{
+    socket.on('current timer', (time, turnindex)=>{
       currentTime = time;
-      io.emit('current time', time);
+      var turn = turnindex;
+      if (time == "0"){ //change player after 0 secs and clear everyone's canvas
+        turn += 1;
+        io.emit('clear');
+      }
+      io.emit('current time', time, turn);
     });
 
     socket.on('set countdown', (state)=>{
@@ -116,14 +141,14 @@ io.on('connection', (socket) => { //gets emitted connection and does things
       delete user[socket.id];
 
     
-      if (Object.keys(user).length == 0){
+      if (Object.keys(user).length <= 0){
         //default settings
         console.log("NEW GAME")
         i = 1;
         currentStroke = "black";
         strokeSize = 3;
         currentWord = Math.floor(Math.random() * 62);
-        currentTime = 0;
+        currentTime = "0";
         firstCountdown = null;
         stateholder = null;
         uptodatecanv = null;

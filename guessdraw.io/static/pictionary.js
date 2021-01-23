@@ -1,6 +1,7 @@
 window.onload=function() {
     var state;
-    var guessedcorrectly = false; 
+    guessedcorrectly = false; 
+    turnindex = 0;
     messages = document.getElementById('chatbox');
     const form = document.getElementById('form');
     input = document.getElementById('input');
@@ -43,7 +44,7 @@ function setup(){
 
                 //only sends to the user that guesses correctly
                 var item = document.createElement('p');
-                item.textContent = "You guessed correctly!"
+                item.textContent = "You guessed correctly!";
                 messages.appendChild(item);
                 guessedcorrectly = true;
             }
@@ -51,31 +52,31 @@ function setup(){
                 //sends message to server (this is talking normally in chat)
                 socket.emit('chat message', input.value);
             }
-            input.value = '';
         }
+        input.value = '';
     });
 
     colors.childNodes.forEach(color => {
         color.addEventListener('click', ()=>{
-            socket.emit('set stroke color', color.id);
+            socket.emit('set stroke color', color.id, turnindex);
         }); 
     });
     pixelsizes.childNodes.forEach(size => {
         size.addEventListener('click', ()=>{
             if (size.id == "small"){
-                socket.emit('set pixelsize', 3);
+                socket.emit('set pixelsize', 3, turnindex);
             }
             else if(size.id == "medium"){
-                socket.emit('set pixelsize', 6);
+                socket.emit('set pixelsize', 6, turnindex);
             }
             else if(size.id == "large"){
-                socket.emit('set pixelsize', 9);
+                socket.emit('set pixelsize', 9, turnindex);
             }
         }); 
     });
     //button to clear canvas with drawing, updates all players' screen
     trash.addEventListener('click', ()=>{
-        socket.emit('clear');
+        socket.emit('clear', turnindex, false);
     });
     
 
@@ -105,6 +106,10 @@ function setup(){
         drawLine(x1, y1, x2, y2);
     });
 
+    socket.on('drawer' , ()=>{
+        guessedcorrectly = true;
+    });
+
     //clear all players' canvas with drawing
     socket.on('clear', ()=>{
         clearScreen();
@@ -116,10 +121,9 @@ function setup(){
                 addCheckMark(element);
             }
         });
-        if (conIDs.length == Object.keys(players).length){
-            //OR USE PLAYERLIST
-            socket.emit('clear');
-            socket.emit('current timer', 0);
+        if (conIDs.length >= playerlist.length-1){
+            socket.emit('clear', conIDs[conIDs.length-1], true);
+            socket.emit('current timer', "1", turnindex);
             //socket.emit('update score'); NEED SCORING
         }
     });
@@ -159,23 +163,34 @@ function setup(){
             }
         }
         document.getElementById(player).remove();
-        if (playerlist.length == 0){
+        turnindex -= 1;
+        if (playerlist.length <= 0){
+            turnindex = 0;
             clearInterval(state);
         }
     });
 
-    socket.on('change word', (wIndex, users)=>{
+    socket.on('change word', (wIndex, users, turn)=>{
         currentWord.innerHTML = words[wIndex];
         if (users){
             users.forEach(element => {
                 document.getElementById("check" + element).remove();
             });
-        }   
-        guessedcorrectly = false;
+        }
+        if(turn != null){
+            socket.emit('set turn', turn);
+            guessedcorrectly = false; //might add to set turn
+        }
     });
 
-    socket.on('current time', (time)=>{
+    socket.on('set turn', (turn)=>{
+        turnindex = turn;
+    });
+    socket.on('current time', (time, turn)=>{
         timer.innerHTML = time;
+        if(turn != null){
+            turnindex = turn;
+        }
     });
 
     socket.on('start countdown', (e, inpState)=>{
@@ -208,11 +223,11 @@ function setup(){
         xx = e.offsetX;
         yy = e.offsetY;
         isDrawing = true;
-        socket.emit('drawing', xx, yy, xx+1,yy);
+        socket.emit('drawing', xx, yy, xx+1,yy, turnindex);
     }, true);
     canv.addEventListener('mousemove', (e)=>{
         if (isDrawing === true) {
-            socket.emit('drawing', xx, yy, e.offsetX, e.offsetY);
+            socket.emit('drawing', xx, yy, e.offsetX, e.offsetY, turnindex);
             xx = e.offsetX;
             yy = e.offsetY;
         }
@@ -259,13 +274,12 @@ function clearScreen() {
 
 function countdown(){
     if (timer.innerHTML == "0"){
-        socket.emit('change word');
-        socket.emit('current timer', "60");
+        socket.emit('change word', turnindex);
+        socket.emit('current timer', "60", turnindex);
     }
     else{
-        socket.emit('current timer', (parseInt(timer.innerHTML) - 1).toString());
+        socket.emit('current timer', (parseInt(timer.innerHTML) - 1).toString(), turnindex);
     }
-    
 }
 
 function addCheckMark(conID){
@@ -273,5 +287,5 @@ function addCheckMark(conID){
     img.src = "./assets/checkmark.png";
     img.id = "check" + conID;
     document.getElementById(conID).appendChild(img);
-    console.log(document.getElementById("check" + conID))
+    console.log(document.getElementById("check" + conID));
 }
