@@ -87,6 +87,8 @@ io.on('connection', (socket) => { //gets emitted connection and does things
       usercorrect = [];
       currentStroke = "black";
       strokeSize = 3;
+      io.emit('stroke color', currentStroke);
+      io.emit('pixelsize', strokeSize);
       io.to(Object.keys(user)[turn]).emit('drawer');
       io.emit('chat message', null, Object.values(user)[turn] + " is drawing!");
 

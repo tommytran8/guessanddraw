@@ -249,6 +249,7 @@ function drawLine(x1, y1, x2, y2) {
         display.lineTo(x2, y2);  // Draw a line to (offsetX, offsetY)
         display.stroke();  //render the path
 
+
         // if (pixelsize <= 10){
         // }
         // else{

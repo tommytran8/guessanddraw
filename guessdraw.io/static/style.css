@@ -23,6 +23,14 @@ main > h1{
     align-self: start;
     margin-left: 12px;
 }
+
+main #startlobby{
+    width: 50vw;
+    height: 80vh;
+    margin-top: 10vh;
+    background: white;
+    color: green;
+}
 .topdisplay{   
     width:98%;  
     height: 8vh;
