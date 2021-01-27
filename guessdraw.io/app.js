@@ -2,10 +2,13 @@ var express = require('express');
 var app = express();
 const http = require('http').Server(app);
 var socket = require('socket.io');
+const { inflate } = require('zlib');
 const io = require('socket.io')(http);
+var userlist = [];
 var user = {};
 var usercorrect = [];
-var i = 1;
+var i = 0;
+var inLobby = true;
 var currentStroke = "black";
 var strokeSize = 3;
 var currentWord = Math.floor(Math.random() * 62);
@@ -20,25 +23,59 @@ app.get('/', (req,res)=>{
 });
 
 io.on('connection', (socket) => { //gets emitted connection and does things
-    // console.log('a user connected:' + socket.id);
-    user[socket.id] = "user" + i;
-    i += 1;
-    io.emit('chat message', null, user[socket.id] + ' has connected.');
+    console.log('a user connected:' + socket.id);
+    if (!inLobby){
+      //for new player
+      io.emit('start game');
 
-    //keeps playerlist updated
-    io.emit('update players', user, usercorrect);
+      //add player to game
+      if (userlist[i] != undefined){
+        user[socket.id] = userlist[i];
+        i += 1;
 
-    io.emit('stroke color', currentStroke);
+        io.emit('chat message', null, user[socket.id] + ' has connected.');
+        //keeps playerlist updated
+        io.emit('update players', user, usercorrect);
 
-    io.emit('pixelsize', strokeSize);
-    
-    io.emit('change word', currentWord, null, null);
+        io.emit('stroke color', currentStroke);
 
-    io.emit('current time', currentTime, null);
+        io.emit('pixelsize', strokeSize);
+        
+        io.emit('change word', currentWord, null, null);
 
-    io.emit('start countdown', firstCountdown, null);
+        io.emit('current time', currentTime, null);
 
-    io.emit('getupdate', uptodatecanv);
+        io.emit('start countdown', firstCountdown, null);
+
+        io.emit('getupdate', uptodatecanv);
+      }
+    }
+    else {
+      io.to(socket.id).emit('set myuser', userlist[i-1]);
+      io.emit('set lobby', userlist);
+    }
+
+
+    socket.on('start game', (inpUser)=>{
+      //if it is the host, then start game
+      if (userlist[0] == inpUser){
+        io.emit('start game');
+        inLobby = false;
+        i = 0;
+      }
+    });
+    socket.on('add user to server', (u)=>{
+      if (u){
+        userlist.push(u);
+      }
+      else{
+        userlist.push('user ' + (i+1).toString());
+      }
+      if (inLobby){
+        i += 1;
+      }
+      io.to(socket.id).emit('join lobby', inLobby);
+    });
 
     //gets message from one user and sends (emits) to the everyone
     socket.on('chat message', (msg) => {
@@ -112,48 +149,70 @@ io.on('connection', (socket) => { //gets emitted connection and does things
     socket.on('update', (canvas)=>{
       uptodatecanv = canvas;
     });
-    // socket.on('getupdate', ()=>{
-    //   if (uptodatecanv != null){io.emit('getupdate', uptodatecanv);}
-    // });
+
+    socket.on('checking if drawer', (idx,turn)=>{
+      console.log(turn ,idx, "in checking if drawer");
+      if (idx == turn){
+        currentTime = "1";
+        io.emit('current time', "1", turn-1); //end turn if drawer leaves
+      }
+    });
+    
 
     socket.on('disconnect', () => {
-      //prints to chat user# has disconnected
-      io.emit('chat message', null ,user[socket.id] + ' has disconnected.');
+      console.log('disconnected user: ' + socket.id);
+      if (!inLobby && user[socket.id] != undefined){
+        //prints to chat user# has disconnected
+        io.emit('chat message', null ,user[socket.id] + ' has disconnected.');
 
-      //removed user# from playerlist and it's html object.
-      io.emit('delete player', user[socket.id] );
-
-      //this is so that even if the host leaves, the game will continue running
-      if (stateholder == user[socket.id] && Object.keys(user).length != 1){
-        var temp;
-        while ( user[socket.id] == stateholder){
-          temp = Object.keys(user)[Math.floor(Math.random() * Object.keys(user).length)];
-          stateholder = user[temp];
-        }
-        io.to(temp).emit('start countdown', null, firstCountdown);
-      } 
-     
-      for (var i = 0; i < usercorrect.length; i++){
-        if (usercorrect[i] == user[socket.id]){
-            usercorrect.splice(i, 1);
+        var uindex;
+        for (uindex = 0; uindex < Object.values(user).length; uindex++){
+          if (user[socket.id] == Object.values(user)[uindex]){
+            io.emit('checking if drawer', uindex);
             break;
+          }
         }
-      }
-      //removes user# from user object
-      delete user[socket.id];
+        
+        //removed user# from playerlist and it's html object.
+        io.emit('delete player', user[socket.id] );
 
-    
-      if (Object.keys(user).length <= 0){
-        //default settings
-        console.log("NEW GAME")
-        i = 1;
-        currentStroke = "black";
-        strokeSize = 3;
-        currentWord = Math.floor(Math.random() * 62);
-        currentTime = "0";
-        firstCountdown = null;
-        stateholder = null;
-        uptodatecanv = null;
+        //this is so that even if the host leaves, the game will continue running
+        if (stateholder == user[socket.id] && Object.keys(user).length >= 2){
+          var temp;
+          while ( user[socket.id] == stateholder){
+            temp = Object.keys(user)[Math.floor(Math.random() * Object.keys(user).length)];
+            stateholder = user[temp];
+          }
+          io.to(temp).emit('start countdown', null, firstCountdown);
+        } 
+      
+        for (var i = 0; i < usercorrect.length; i++){
+          if (usercorrect[i] == user[socket.id]){
+              usercorrect.splice(i, 1);
+              break;
+          }
+        }
+        //removes user# from user object
+        delete user[socket.id];
+        console.log('get to delete first');
+      
+        if (Object.keys(user).length <= 0){
+          //default settings
+          console.log("NEW GAME")
+          currentStroke = "black";
+          strokeSize = 3;
+          currentWord = Math.floor(Math.random() * 62);
+          currentTime = "0";
+          firstCountdown = null;
+          stateholder = null;
+          uptodatecanv = null;
+          i = 0;
+
+          //just added these idk if needed
+          usercorrect = [];
+          userlist = [];
+          inLobby = true;
+        }
       }
     });
 });

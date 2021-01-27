@@ -5,19 +5,20 @@
     - is an exercise with using Node.js and Socket.io
 
 # Features (Work In Progress)
-    [ ] Lobby before starting the game to enter Username
+    [x] Lobby before starting the game to enter Username
     [x] Users can draw on canvas that updates on everyone's screen
     [x] Drawing will render on new player's or reentering player's canvas
     [ ] Hide the words on the screens of those who are not drawing 
-    [ ] One player can only draw and rotate between players
+    [x] One player can only draw and rotate between players
     [x] Chat with username and message
-    [x] list of players
+    [x] List of players
     [x] Drawingtools, like color or pixelsize change
     [x] Randomize word and show it on everyone's screen
     [x] Timer; count down shows on everyone's screen (synchronously)
+    [x] Game will continue even if host leaves (need at least 1 player in lobby)
+    [x] If host was drawer and leaves, start new round
     [ ] Scoring system
     [x] Game will reset when everyone leaves
-    [x] Game will continue even if host leaves (need at least 1 player in lobby)
     [x] New word and reset timers when everyone guesses correctly
     [x] Indicate to player if word is correctly guessed (not synchronous)
     [x] Player cannot message when already they guessed word

@@ -163,11 +163,17 @@ function setup(){
             }
         }
         document.getElementById(player).remove();
-        turnindex -= 1;
+        if (turnindex > 0){
+            turnindex -= 1;
+        }
         if (playerlist.length <= 0){
             turnindex = 0;
             clearInterval(state);
         }
+    });
+    
+    socket.on('checking if drawer', (idx)=>{
+        socket.emit('checking if drawer', idx, turnindex);
     });
 
     socket.on('change word', (wIndex, users, turn)=>{
@@ -285,7 +291,7 @@ function countdown(){
 
 function addCheckMark(conID){
     var img = document.createElement('img');
-    img.src = "./assets/checkmark.png";
+    img.src = "../assets/checkmark.png";
     img.id = "check" + conID;
     document.getElementById(conID).appendChild(img);
     console.log(document.getElementById("check" + conID));

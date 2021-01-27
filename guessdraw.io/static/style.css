@@ -24,7 +24,7 @@ main > h1{
     margin-left: 12px;
 }
 
-main #startlobby{
+main > form{
     width: 50vw;
     height: 80vh;
     margin-top: 10vh;
@@ -180,4 +180,36 @@ canvas {
 #trash {
     /* cursor: pointer; */
     filter: invert(100%);  
+}
+
+#lobby{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#lobbylist{
+    width: 50%;
+    height: 50%;
+    display: flex;
+    flex-wrap:wrap;
+    background-color: blueviolet;
+}
+#lobbylist > div{
+    width: 20%;
+    height: 25%;
+    background-color: aquamarine;
+    color: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2.5%;
+}
+#lobbylist > div  p{
+    width: 90%;
+    height: 90%;
+    text-align: center;
+    word-wrap: break-word;
+    overflow: hidden;
 }
