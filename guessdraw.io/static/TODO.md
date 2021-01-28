@@ -23,11 +23,13 @@
     [x] hide the words on the screens of those who are not drawing  
 
 
-    [] allow user to select character img?
+    [] Scoring system //line 124 in main.js
+    [] End game and show results
+
+# Maybes
+    [] allow user to select character img
     [] when players enter game, players are in correct order as lobby
     [] make lines smoother
-    [] End game and show results
-    [] fill page?
+    [] fill page
     [] pause round at start of player turn
     [] Make everything look prettier.
-    [] Scoring system //line 124 in main.js

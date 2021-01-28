@@ -111,6 +111,19 @@ main > form{
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    border-radius: 5%;
+}
+.chat input{
+    margin: 2%;
+    width: 80%;
+    height: 70%
+}
+.chat button{
+    width: 12%;
+    height : 70%;
+    background-color: rgb(56, 0, 139);
+    border: none;
+    color: white;
 }
 canvas {
     background-color: aliceblue;
@@ -119,11 +132,12 @@ canvas {
 #chatbox{
     width:40vh;
     height:70vh;
-    background-color: blue;
+    background-color: grey;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     overflow:hidden;
+    border-radius: 5% 5% 0 0;
 
 }
 #chatbox *{
@@ -132,7 +146,8 @@ canvas {
 #form{
     width:40vh;
     height:6vh;
-    background-color: red;
+    background-color: rgb(56, 0, 139);
+    border-radius: 0 0 5% 5%;
 }
 #colors > *{
     width: 30px;
@@ -187,24 +202,37 @@ canvas {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    border-radius: 15%;
 }
 
+#lobby button{
+    border: none;
+    background-color: rgba(49, 174, 47, 0.552);
+    width: 40%;
+    height: 10%;
+    color: white;
+    cursor: pointer;
+}
 #lobbylist{
-    width: 50%;
-    height: 50%;
+    width: 75%;
+    height: 75%;
     display: flex;
     flex-wrap:wrap;
-    background-color: blueviolet;
+    background-color: rgba(49, 174, 47, 0.273);
+    margin-bottom: 5%;
+    border-radius: 5%;
 }
 #lobbylist > div{
     width: 20%;
     height: 25%;
-    background-color: aquamarine;
-    color: red;
+    background-color: rgb(46, 208, 154);
+    
+    color: white;
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 2.5%;
+    border-radius: 10%;
 }
 #lobbylist > div  p{
     width: 90%;
@@ -212,4 +240,14 @@ canvas {
     text-align: center;
     word-wrap: break-word;
     overflow: hidden;
+}
+#enteruser{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content:flex-start
+}
+#enteruser input{
+    text-align: center;
+    margin-bottom: 5px;
 }

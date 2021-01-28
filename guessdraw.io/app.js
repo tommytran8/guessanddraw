@@ -211,6 +211,7 @@ io.on('connection', (socket) => { //gets emitted connection and does things
           firstCountdown = null;
           stateholder = null;
           uptodatecanv = null;
+          user = {};
           i = 0;
 
           //just added these idk if needed
