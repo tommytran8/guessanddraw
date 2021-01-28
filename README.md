@@ -6,6 +6,7 @@
 
 # Features (Work In Progress)
     [x] Lobby before starting the game to enter Username
+    [x] Can have custom username (don't necessarily need one)
     [x] Users can draw on canvas that updates on everyone's screen
     [x] Drawing will render on new player's or reentering player's canvas
     [x] Hide the words on the screens of those who are not drawing 
@@ -20,6 +21,7 @@
     [x] Game will reset when everyone leaves
     [x] New word and reset timers when everyone guesses correctly
     [x] Indicate to player if word is correctly guessed (not synchronous)
+    [x] Visual Checkmark next to user who guessed correctly
     [x] Player cannot message when already they guessed word
     [ ] Scoring system
     [ ] End game after 3 rounds and show results
