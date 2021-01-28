@@ -26,11 +26,19 @@
     
 # Sample Images of Game
 
+## Start Page
+
 ![startpage](./guessdraw.io/sample-game-images/startpage.PNG)
+
+## Lobby Page
 
 ![lobbypage](./guessdraw.io/sample-game-images/lobby.PNG)
 
-![samplegame1](./guessdraw.io/sample-game-images/game1.PNG)
+## Without Drawing
 
 ![samplegame2](./guessdraw.io/sample-game-images/game2.PNG)
+
+## With Drawing
+
+![samplegame2](./guessdraw.io/sample-game-images/game1.PNG)
 
