@@ -26,5 +26,5 @@
     
 # Sample Images of Game
 
-    <img src="./sample-game-images/startpage.PNG" alt="startpage" width="200"/>
+    ```<img src="./sample-game-images/startpage.PNG" alt="startpage" width="200"/>```
 
