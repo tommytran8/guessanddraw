@@ -2,7 +2,6 @@ var express = require('express');
 var app = express();
 const http = require('http').Server(app);
 var socket = require('socket.io');
-const { inflate } = require('zlib');
 const io = require('socket.io')(http);
 var userlist = [];
 var user = {};
@@ -41,7 +40,7 @@ io.on('connection', (socket) => { //gets emitted connection and does things
 
         io.emit('pixelsize', strokeSize);
         
-        io.emit('change word', currentWord, null, null);
+        io.to(socket.id).emit('change word', currentWord, null, null);
 
         io.emit('current time', currentTime, null);
 
@@ -103,11 +102,17 @@ io.on('connection', (socket) => { //gets emitted connection and does things
     });
     socket.on('clear', (turnindex, b)=>{
       if (Object.values(user)[turnindex] == user[socket.id] || b){ 
+        uptodatecanv = null;
         io.emit('clear');
       }
     });
-    socket.on('set turn', (t)=>{
-      io.emit('set turn', t);
+    socket.on("set drawer's word", (turnindex, word)=>{
+      if (Object.values(user)[turnindex] == user[socket.id]){ 
+        io.to(socket.id).emit("set drawer's word", word);
+      }
+    });
+    socket.on('set turn', (turnindex)=>{
+      io.emit('set turn', turnindex);
     });
 
     socket.on('guessed correctly',()=>{

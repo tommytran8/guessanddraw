@@ -11,6 +11,7 @@ window.onload=function() {
     pixelsizes=document.getElementById('pixelsizes');
     timer = document.getElementById('time');
     currentWord = document.getElementById('currentword');
+    let savedWord;
     playerlist = [];
     words = ["bike","cloud","square","snowman","ice cream cone","box",
         "head","bunny","tail","pillow", "duck","mouth","cat","key","worm",
@@ -20,7 +21,7 @@ window.onload=function() {
         "crust","magazine","magnet","scissors","wheelbarrow","bathtub",
         "sidewalk","drumstick","rug","shake","basket","juice","grandma",
         "propose","knight","glitter","trapped","hermit crab","postcard",
-        "cabin","police","carpenter","ginger"]
+        "cabin","police","carpenter","ginger"];
     socket = io(); // emit 'connection' to server from cilent socket
     let xx = 0;
     let yy = 0;
@@ -39,7 +40,7 @@ function setup(){
         e.preventDefault();
         if (input.value && !guessedcorrectly) {
             //this is guessing correct word
-            if (input.value.trim() == currentWord.innerHTML){
+            if (input.value.trim() == savedWord){
                 socket.emit("guessed correctly");
 
                 //only sends to the user that guesses correctly
@@ -177,13 +178,23 @@ function setup(){
     });
 
     socket.on('change word', (wIndex, users, turn)=>{
-        currentWord.innerHTML = words[wIndex];
+        let tempWord = "_";
+        for (let i = 1; i < words[wIndex].length; i++){
+            console.log(words[wIndex].charAt(i));
+            if (words[wIndex].charAt(i) != ' '){
+                tempWord = tempWord +  " _";
+            }
+            else{ tempWord = tempWord +  " - ";}
+        }
+        savedWord = words[wIndex];
+        currentWord.innerHTML = tempWord;
         if (users){
             users.forEach(element => {
                 document.getElementById("check" + element).remove();
             });
         }
         if(turn != null){
+            socket.emit("set drawer's word", turn, words[wIndex]);
             socket.emit('set turn', turn);
             guessedcorrectly = false; //might add to set turn
         }
@@ -191,6 +202,9 @@ function setup(){
 
     socket.on('set turn', (turn)=>{
         turnindex = turn;
+    });
+    socket.on("set drawer's word", (word)=>{
+        currentWord.innerHTML = word;
     });
     socket.on('current time', (time, turn)=>{
         timer.innerHTML = time;
@@ -254,24 +268,9 @@ function drawLine(x1, y1, x2, y2) {
         display.moveTo(x1, y1);    // set where the pen starts
         display.lineTo(x2, y2);  // Draw a line to (offsetX, offsetY)
         display.stroke();  //render the path
+          
+        // i = x1 < x2 ? x1 : x2;
 
-
-        // if (pixelsize <= 10){
-        // }
-        // else{
-        //     var i = x1 < x2 ? x1 : x2;
-        //     var j = y1 < y2 ? y1 : y2;
-        //     var i2 = x1 < x2 ? x2 : x1;
-        //     var j2 = y1 < y2 ? y2 : y1;
-        //     for (i; i <= i2; i++){
-        //         for (j; j <= j2; j++){
-        //             display.beginPath(); // Start a new path
-        //             display.arc(i, j, pixelsize, 0, 2 * Math.PI);
-        //             display.fill();
-        //             display.stroke();  //render the path
-        //         }
-        //     }
-        // }
 }
 
 function clearScreen() {

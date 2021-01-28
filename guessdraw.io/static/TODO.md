@@ -20,11 +20,14 @@
     [x] New word and reset timers when everyone guesses correctly
     [x] sets canvas with current drawing and show it on 
         new player's or reentering player's canvas (if there is still atleast 1 person in cilent)
+    [x] hide the words on the screens of those who are not drawing  
+
 
     [] allow user to select character img?
     [] when players enter game, players are in correct order as lobby
+    [] make lines smoother
     [] End game and show results
-    [] Eraser?
-! ! [] hide the words on the screens of those who are not drawing  
+    [] fill page?
+    [] pause round at start of player turn
     [] Make everything look prettier.
-! ! [] Scoring system //line 124 in main.js
+    [] Scoring system //line 124 in main.js
