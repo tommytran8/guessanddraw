@@ -17,9 +17,14 @@
     [x] Timer; count down shows on everyone's screen (synchronously)
     [x] Game will continue even if host leaves (need at least 1 player in lobby)
     [x] If host was drawer and leaves, start new round
-    [ ] Scoring system
     [x] Game will reset when everyone leaves
     [x] New word and reset timers when everyone guesses correctly
     [x] Indicate to player if word is correctly guessed (not synchronous)
     [x] Player cannot message when already they guessed word
+    [ ] Scoring system
     [ ] End game after 3 rounds and show results
+    
+# Sample Images of Game
+
+    <img src="./sample-game-images/startpage.PNG" alt="startpage" width="200"/>
+
