@@ -26,8 +26,11 @@
     
 # Sample Images of Game
 
-    ![startpage](./sample-game-images/startpage.PNG)
-    ![lobbypage](./sample-game-images/lobby.PNG)
-    ![samplegame1](./sample-game-images/game1.PNG)
-    ![samplegame2](./sample-game-images/game2.PNG)
+![startpage](./sample-game-images/startpage.PNG =100px)
+
+![lobbypage](./sample-game-images/lobby.PNG)
+
+![samplegame1](./sample-game-images/game1.PNG)
+
+![samplegame2](./sample-game-images/game2.PNG)
 
