@@ -1,6 +1,6 @@
 window.onload=function() {
     var state;
-    guessedcorrectly = false; 
+    guessedcorrectly = false;
     turnindex = 0;
     messages = document.getElementById('chatbox');
     const form = document.getElementById('form');
@@ -60,7 +60,7 @@ function setup(){
     colors.childNodes.forEach(color => {
         color.addEventListener('click', ()=>{
             socket.emit('set stroke color', color.id, turnindex);
-        }); 
+        });
     });
     pixelsizes.childNodes.forEach(size => {
         size.addEventListener('click', ()=>{
@@ -73,13 +73,13 @@ function setup(){
             else if(size.id == "large"){
                 socket.emit('set pixelsize', 9, turnindex);
             }
-        }); 
+        });
     });
     //button to clear canvas with drawing, updates all players' screen
     trash.addEventListener('click', ()=>{
         socket.emit('clear', turnindex, false);
     });
-    
+
 
     //updates everyone's chat with (user: message) with message from server
     socket.on('chat message', (player,msg)=> {
@@ -92,7 +92,7 @@ function setup(){
             item.textContent = player + ": " + msg;
             messages.appendChild(item);
         }
-        
+
     });
 
     socket.on('pixelsize', (size)=>{
@@ -149,7 +149,7 @@ function setup(){
         if (correctpObj){
             correctpObj.forEach(player=>{
                 if (document.getElementById("check" + player) == undefined){
-                    addCheckMark(player); 
+                    addCheckMark(player);
                 }
             });
         }
@@ -172,7 +172,7 @@ function setup(){
             clearInterval(state);
         }
     });
-    
+
     socket.on('checking if drawer', (idx)=>{
         socket.emit('checking if drawer', idx, turnindex);
     });
@@ -263,18 +263,18 @@ function setup(){
 
 }
 
-function drawLine(x1, y1, x2, y2) {   
+function drawLine(x1, y1, x2, y2) {
         display.beginPath();       // Start a new path
         display.moveTo(x1, y1);    // set where the pen starts
         display.lineTo(x2, y2);  // Draw a line to (offsetX, offsetY)
         display.stroke();  //render the path
-          
+
         // i = x1 < x2 ? x1 : x2;
 
 }
 
 function clearScreen() {
-    display.fillStyle="lightyellow"; 
+    display.fillStyle="lightyellow";
     display.fillRect(0,0,canv.width,canv.height);
 };
 
