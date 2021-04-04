@@ -1,4 +1,4 @@
-# guessdraw.io
+# guessdraw
 
     - is a multiplayer draw and guess game using servers.
     - is based on the game pictionary.
