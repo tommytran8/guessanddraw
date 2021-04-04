@@ -30,7 +30,7 @@ I worked on this when I was first learning Javascript (around November 2020 for 
     [ ] Scoring system
     [ ] End game after 3 rounds and show results
     
-# Sample Images of Game
+# Sample Images of Site
 
 The site is currently not deployed!
 
