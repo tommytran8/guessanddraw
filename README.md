@@ -32,6 +32,8 @@ I worked on this when I was first learning Javascript (around November 2020 for 
     
 # Sample Images of Game
 
+The site is currently not deployed!
+
 ## Start Page
 
 ![startpage](./sample-game-images/startpage.PNG)
