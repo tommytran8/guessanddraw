@@ -1,5 +1,5 @@
-var express = require('express');
-var app = express();
+const express = require('express');
+const app = express();
 const http = require('http').Server(app);
 var socket = require('socket.io');
 const io = require('socket.io')(http);
