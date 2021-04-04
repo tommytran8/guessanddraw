@@ -1,8 +1,12 @@
-# guessanddraw
+# guessanddraw 
 
     - is a multiplayer draw and guess game using servers.
     - is based on the game pictionary.
     - is an exercise with using Node.js and Socket.io
+
+# Development
+
+I worked on this when I was first learning Javascript (around November 2020 for 2 weeks). I decided to discontinue working on this to pursue other endeavors and improve myself in other areas.
 
 # Features (Work In Progress)
     [x] Lobby before starting the game to enter Username
@@ -30,17 +34,17 @@
 
 ## Start Page
 
-![startpage](./guessdraw.io/sample-game-images/startpage.PNG)
+![startpage](./sample-game-images/startpage.PNG)
 
 ## Lobby Page
 
-![lobbypage](./guessdraw.io/sample-game-images/lobby.PNG)
+![lobbypage](./sample-game-images/lobby.PNG)
 
 ## Without Drawing
 
-![samplegame2](./guessdraw.io/sample-game-images/game2.PNG)
+![samplegame2](./sample-game-images/game2.PNG)
 
 ## With Drawing
 
-![samplegame2](./guessdraw.io/sample-game-images/game1.PNG)
+![samplegame2](./sample-game-images/game1.PNG)
 
