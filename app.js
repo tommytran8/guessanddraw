@@ -222,6 +222,6 @@ io.on('connection', (socket) => { //gets emitted connection and does things
       }
     });
 });
-http.listen(3000, () => {
+http.listen(process.env.PORT || 3000, () => {
   console.log('listening on *:3000');
 });
