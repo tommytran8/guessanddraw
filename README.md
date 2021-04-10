@@ -29,10 +29,12 @@ I worked on this when I was first learning Javascript (around November 2020 for 
     [x] Player cannot message when already they guessed word
     [ ] Scoring system
     [ ] End game after 3 rounds and show results
-    
-# Sample Images of Site
+  
+# Status
 
 The site is currently not deployed!
+  
+# Sample Images of Site
 
 ## Start Page
 
