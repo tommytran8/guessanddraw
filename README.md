@@ -1,8 +1,8 @@
 # guessanddraw 
 
-    - is a multiplayer draw and guess game using servers.
+    - is a multiplayer draw and guess game using sockets.
     - is based on the game pictionary.
-    - is an exercise with using Node.js and Socket.io
+    - is an exercise with using Node.js, Express and Socket.io
 
 # Development
 
